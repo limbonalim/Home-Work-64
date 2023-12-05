@@ -1,24 +1,18 @@
-import {useNavigate} from 'react-router-dom';
 import React, {ChangeEvent, FormEvent, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import axiosApi from '../../axios-api';
-import {FormPageType, PagesInfo} from '../../types';
+import {AddPageFormType, FormPageType} from '../../types';
 
-interface Props {
-  listOfPages: PagesInfo[];
-}
-
-const EditForm: React.FC<Props> = ({listOfPages}) => {
-  const [page, setPage] = useState<FormPageType>({
-    name: 'home',
+const AddPage = () => {
+  const [page, setPage] = useState<AddPageFormType>({
+    name: '',
+    id: '',
     title: '',
     content: ''
   });
   const navigate = useNavigate();
-  const listOfOptions = listOfPages.map(({id, name}) => (
-    <option key={id} value={id}>{name}</option>
-  ));
 
-  const onChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = event.target;
     setPage((prevState) => {
       return {
@@ -31,28 +25,46 @@ const EditForm: React.FC<Props> = ({listOfPages}) => {
   const onFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      await axiosApi.put<FormPageType>(`/pages/${page.name}.json`, page);
+      const data: FormPageType = {
+        title: page.title,
+        name: page.name,
+        content: page.content
+      };
+      await axiosApi.put<FormPageType>(`/pages/${page.id}.json`, data);
       navigate('/');
     } catch (error: Error) {
       console.log(error);
     }
   };
-
   return (
     <form onSubmit={onFormSubmit}>
-      <h1>Edit page</h1>
+      <h1>Add Page</h1>
       <div className="mb-3">
-        <label htmlFor="name" className="form-label">Select Page:</label>
-        <select
+        <label htmlFor="id" className="form-label">Enter Page ID:</label>
+        <input
+          onChange={onChange}
+          value={page.id}
+          required
+          type="text"
+          className="form-control"
+          id="id"
+          name="id"
+          pattern="^[a-z]+(?:-[a-z]+)*$"
+          placeholder="Some Page"
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">Enter Page Name:</label>
+        <input
           onChange={onChange}
           value={page.name}
-          className="form-select"
-          aria-label="select page menu"
-          name="name"
+          required
+          type="text"
+          className="form-control"
           id="name"
-        >
-          {listOfOptions}
-        </select>
+          name="name"
+          placeholder="Some Page"
+        />
       </div>
       <div className="mb-3">
         <label htmlFor="title" className="form-label">Title:</label>
@@ -80,9 +92,9 @@ const EditForm: React.FC<Props> = ({listOfPages}) => {
           rows="3"
         ></textarea>
       </div>
-      <button className="btn btn-outline-primary">Save</button>
+      <button className="btn btn-outline-primary">Add</button>
     </form>
   );
 };
 
-export default EditForm;
+export default AddPage;

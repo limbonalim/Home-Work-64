@@ -1,13 +1,19 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
-import constants from '../../constants';
+import {PagesInfo} from '../../types';
+// import listOfPages from '../../constants';
 
-const Toolbar = () => {
-  const linkList = constants.map(({id, title}) => {
+interface Props {
+  listOfPages: PagesInfo[];
+}
+
+const Toolbar = ({listOfPages}) => {
+
+  const linkList = listOfPages.map(({id, name}) => {
     let path: string = (id === 'home') ? '/' : `/pages/${id}`;
     return (
       <li key={id} className="nav-item">
-        <NavLink to={path} className="nav-link">{title}</NavLink>
+        <NavLink to={path} className="nav-link">{name}</NavLink>
       </li>
     );
   });

@@ -4,10 +4,14 @@ export interface PageType {
 }
 
 export interface FormPageType extends PageType {
-  select: string;
+  name: string;
 }
 
-export interface Constant {
-  title: string;
+export interface AddPageFormType extends FormPageType {
+  id: string;
+}
+
+export interface PagesInfo {
+  name: string;
   id: string;
 }

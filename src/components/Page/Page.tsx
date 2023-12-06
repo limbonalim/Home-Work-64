@@ -1,16 +1,18 @@
 import React from 'react';
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 
 interface Props {
   title: string;
   content: string;
 }
 
-const MemoPage: React.FC<Props> = React.memo(function Page ({title, content}) {
-
+const MemoPage: React.FC<Props> = React.memo(function Page({title, content}) {
   return (
     <div>
       <h1>{title}</h1>
-      <div>{content}</div>
+      <FroalaEditorView
+        model={content}
+      />
     </div>
   );
 });

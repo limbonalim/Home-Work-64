@@ -2,6 +2,7 @@ import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axiosApi from '../../axios-api';
 import {AddPageFormType, FormPageType} from '../../types';
+import FroalaEditor from 'react-froala-wysiwyg';
 
 const AddPage = () => {
   const [page, setPage] = useState<AddPageFormType>({
@@ -12,12 +13,21 @@ const AddPage = () => {
   });
   const navigate = useNavigate();
 
-  const onChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
     setPage((prevState) => {
       return {
         ...prevState,
         [name]: value
+      };
+    });
+  };
+
+  const textAriaChange = (model: string) => {
+    setPage((prevState) => {
+      return {
+        ...prevState,
+        content: model,
       };
     });
   };
@@ -80,17 +90,11 @@ const AddPage = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="content" className="form-label">Content:</label>
-        <textarea
-          onChange={onChange}
-          value={page.content}
-          required
-          className="form-control"
-          id="content"
-          name="content"
-          placeholder="Some Content"
-          rows="3"
-        ></textarea>
+        <FroalaEditor
+          tag="textarea"
+          onModelChange={textAriaChange}
+          model={page.content}
+        />
       </div>
       <button className="btn btn-outline-primary">Add</button>
     </form>

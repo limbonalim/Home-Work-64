@@ -19,6 +19,7 @@ const App = () => {
     const list: PagesInfo[] = await getPages();
     if (list) {
       setListOfPages(list);
+      console.log(list);
     }
   }, [pathname]);
 

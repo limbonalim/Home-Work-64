@@ -7,6 +7,8 @@ export const getPages = async () => {
     const pages = request.data
     const keys: string[] = Object.keys(pages);
     return keys.map((item):PagesInfo => {
+      console.log(item);
+      console.log(pages)
       return {name: pages[item].name ,id: item}
     })
   } catch (error: Error) {

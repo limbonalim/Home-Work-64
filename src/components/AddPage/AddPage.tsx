@@ -4,7 +4,11 @@ import axiosApi from '../../axios-api';
 import {AddPageFormType, FormPageType} from '../../types';
 import FroalaEditor from 'react-froala-wysiwyg';
 
-const AddPage = () => {
+interface Props {
+  getError: (message: string) => void;
+}
+
+const AddPage: React.FC<Props> = ({getError}) => {
   const [page, setPage] = useState<AddPageFormType>({
     name: '',
     id: '',
@@ -43,9 +47,10 @@ const AddPage = () => {
       await axiosApi.put<FormPageType>(`/pages/${page.id}.json`, data);
       navigate('/');
     } catch (error: Error) {
-      console.log(error);
+      getError(error.message);
     }
   };
+
   return (
     <form onSubmit={onFormSubmit}>
       <h1>Add Page</h1>

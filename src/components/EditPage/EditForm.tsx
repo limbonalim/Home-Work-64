@@ -6,9 +6,10 @@ import {AddPageFormType, FormPageType, PagesInfo} from '../../types';
 
 interface Props {
   listOfPages: PagesInfo[];
+  getError: (message: string) => void;
 }
 
-const EditForm: React.FC<Props> = ({listOfPages}) => {
+const EditForm: React.FC<Props> = ({listOfPages, getError}) => {
   const [page, setPage] = useState<AddPageFormType>({
     id: '',
     name: '',
@@ -20,7 +21,7 @@ const EditForm: React.FC<Props> = ({listOfPages}) => {
     <option key={id} value={id} defaultValue={name}>{name}</option>
   ));
 
-  const onChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
     setPage((prevState) => {
       return {
@@ -67,7 +68,7 @@ const EditForm: React.FC<Props> = ({listOfPages}) => {
       await axiosApi.put<FormPageType>(`/pages/${page.id}.json`, data);
       navigate('/');
     } catch (error: Error) {
-      console.log(error);
+      getError(error.message);
     }
   };
 

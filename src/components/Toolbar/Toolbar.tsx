@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import {PagesInfo} from '../../types';
+
 // import listOfPages from '../../constants';
 
 interface Props {

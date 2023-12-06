@@ -5,16 +5,17 @@ import {PagesInfo} from '../../types';
 
 interface Props {
   listOfPages: PagesInfo[];
+  getError: (message: string) => void;
 }
 
-const AdminPage: React.FC<Props> = ({listOfPages}) => {
+const AdminPage: React.FC<Props> = ({listOfPages, getError}) => {
   const [show, setShow] = useState<boolean>(false);
   let content;
 
   if (show) {
-    content = (<AddPage/>);
+    content = (<AddPage getError={getError}/>);
   } else {
-    content = (<EditForm listOfPages={listOfPages}/>);
+    content = (<EditForm listOfPages={listOfPages} getError={getError}/>);
   }
   return (
     <>

@@ -88,7 +88,6 @@ const App = () => {
     );
   }
 
-
   return (
     <>
       <Alert show={showAlert} variant="danger" onClose={() => setShowAlert(false)} dismissible>

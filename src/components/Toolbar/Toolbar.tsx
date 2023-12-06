@@ -2,13 +2,11 @@ import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import {PagesInfo} from '../../types';
 
-// import listOfPages from '../../constants';
-
 interface Props {
   listOfPages: PagesInfo[];
 }
 
-const Toolbar = ({listOfPages}) => {
+const Toolbar: React.FC<Props> = ({listOfPages}) => {
 
   const linkList = listOfPages.map(({id, name}) => {
     let path: string = (id === 'home') ? '/' : `/pages/${id}`;
